@@ -66,7 +66,7 @@
             "@php artisan key:generate --ansi"
         ],
         "vercel": [
-            "@php artisan migrate --force"
+            "@php -v"
         ]
     }
 }
