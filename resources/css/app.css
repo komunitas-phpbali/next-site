@@ -1,0 +1,206 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+body {
+    font-family: 'Roboto Mono', monospace;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#sidebarMenu {
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    z-index: 2;
+    background: white;
+    transform: translateX(-250px);
+    will-change: transform;
+}
+
+#sidebarMenu li a {
+    padding: 1rem;
+    border-top: 0;
+    border-bottom: 1px solid #ddd;
+}
+
+#sidebarMenu li a.active {
+    border-bottom: 2px solid #4299e1;
+}
+
+@media (max-width: 767px) {
+    .menu-underlay {
+        display: none;
+        background: rgba(0,0,0,0.4);
+        opacity: 1;
+        pointer-events: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        width: 100%;
+        height: 100vh;
+        transition: opacity .3s cubic-bezier(0,0,.31,1);
+    }
+}
+
+@media (min-width: 768px) {
+    .sidebar-icon-toggle {
+        display: none;
+    }
+
+    #sidebarMenu {
+        position: static;
+        left: auto;
+        top: auto;
+        height: auto;
+        display: block;
+        transform: none !important;
+        transition: none !important;
+        background: none;
+        width: auto;
+        z-index: auto;
+    }
+
+    #sidebarMenu li a {
+        border: none;
+    }
+}
+
+.about {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+}
+
+.about h1 {
+    font-size: 1.875rem;
+    text-align: center;
+    font-weight: 700;
+}
+
+.about h2 {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.about ul {
+    list-style: circle;
+    margin-left: 1.25rem;
+}
+
+.about a {
+    text-decoration: underline;
+    text-decoration-color: blue;
+}
+
+.btn {
+    @apply m-4;
+    @apply py-2;
+    @apply px-4;
+    @apply border;
+    @apply font-semibold;
+    @apply rounded;
+    @apply shadow;
+}
+
+.btn:focus {
+    @apply outline-none ring;
+}
+
+.delete__btn {
+    @apply bg-red-600;
+    @apply text-white;
+    @apply border-red-600;
+}
+
+.delete__btn:hover {
+    @apply bg-red-500;
+}
+
+.default__btn {
+    @apply bg-white;
+    @apply text-black;
+    @apply border-gray-400;
+}
+
+.default__btn:hover {
+    @apply bg-gray-100;
+}
+
+.primary__btn {
+    @apply bg-blue-500;
+    @apply border-blue-500;
+    @apply text-white;
+}
+
+.primary__btn:hover {
+    @apply bg-blue-700;
+}
+
+.show__dialog__btn {
+    @apply py-2 px-4 rounded text-white bg-gray-500;
+}
+
+.show__dialog__btn:hover {
+    @apply bg-gray-600;
+}
+
+.show__dialog__btn:focus {
+    @apply outline-none ring;
+}
+
+.dialog {
+    @apply hidden;
+}
+
+.dialog.opened {
+    @apply block;
+}
+
+.dialog__window {
+    @apply inline-block;
+    @apply fixed;
+    @apply bg-white;
+    @apply rounded;
+    @apply z-1;
+    @apply p-5;
+    @apply w-4/5;
+    @apply shadow;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#dialog__title {
+    @apply text-lg;
+    @apply font-bold;
+    @apply text-center;
+}
+
+#dialog__body {
+    @apply mt-4;
+}
+
+@screen md {
+    .dialog__window {
+        @apply w-400px;
+    }      
+}
+
+.dialog__mask {
+    @apply fixed;
+    @apply top-0;
+    @apply left-0;
+    @apply h-full;
+    @apply w-full;
+    @apply bg-black;
+    @apply opacity-50;
+    @apply overflow-hidden;
+    @apply z-0;
+}
