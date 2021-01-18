@@ -9,7 +9,7 @@ use Socialite;
 
 class AuthController extends Controller
 {
-    public function redirectToProvider($provider)
+    public function redirectToProvider($provider = 'github')
     {
         return Socialite::driver($provider)->redirect();
     }

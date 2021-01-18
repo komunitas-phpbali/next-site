@@ -7,6 +7,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ArtisanController;
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -20,8 +21,8 @@ Route::get('events', [EventController::class, 'index']);
 Route::get('about', [AboutController::class, 'index']);
 
 // Oauth Github
-Route::get('login/{provider}', [AuthController::class, 'redirectToProvider'])->name('login');
-Route::get('login/{provider}/callback/{events?}/{event_slug?}', [AuthController::class, 'handleProviderCallback']);
+Route::get('login/{provider?}', [AuthController::class, 'redirectToProvider'])->name('login');
+Route::get('login/{provider?}/callback/{events?}/{event_slug?}', [AuthController::class, 'handleProviderCallback']);
 
 Route::post('logout', [AuthController::class, 'logout']);
 
@@ -49,6 +50,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
         Route::put('users/{user}/update', [UserController::class, 'update']);
         Route::delete('users/{user}', [UserController::class, 'destroy']);
+
+        // Artisan migrate force
+        Route::get('migrate', [ArtisanController::class, 'migrate']);
     });
 
     // Register event for authenticated user
