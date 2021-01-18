@@ -67,6 +67,7 @@
         ],
         "vercel": [
             "@php -v",
+            "@php artisan cache:clear",
             "@php artisan"
         ]
     }
