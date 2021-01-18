@@ -64,11 +64,6 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ],
-        "vercel": [
-            "@php -v",
-            "@php artisan cache:clear",
-            "@php artisan"
         ]
     }
 }
