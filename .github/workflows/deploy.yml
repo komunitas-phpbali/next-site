@@ -51,7 +51,10 @@ jobs:
         run: |
           cp .env.example .env
           php artisan key:generate
-          php artisan migrate
+      - name: Run database migration
+        run: |
+          mysql --version
+          php artisan migrate:fresh
       - name: Run tests
         run: ./vendor/bin/phpunit
         env:
