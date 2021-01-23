@@ -58,7 +58,7 @@ jobs:
           php artisan key:generate
       - name: Run tests
         run: | 
-          php artisan migrate
+          php artisan migrate:fresh --seed
           ./vendor/bin/phpunit --verbose
         env:
           DB_DATABASE: phpbali_next_site
