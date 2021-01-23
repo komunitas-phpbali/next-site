@@ -31,12 +31,18 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_PASSWORD: secret
+          MYSQL_USER: user
           MYSQL_DATABASE: phpbali_next_site
         ports:
           - 3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
+      - name: Verify MySQL connection
+        run: |
+          mysql --version
+          sudo apt-get install -y mysql-client
+          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -uuser -psecret -e "SHOW DATABASES"
       - uses: actions/checkout@v2
       - name: Setup PHP
         uses: shivammathur/setup-php@master
@@ -45,24 +51,20 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, soap, intl, gd, exif, iconv, imagick
       - name: Composer install
         run: composer install -n --prefer-dist
-        env:
-          APP_ENV: testing
       - name: Prepare Laravel Application
         run: |
-          cp .env.example .env
+          cp .env.github .env
           php artisan key:generate
-      - name: Verify MySQL connection
-        run: |
-          mysql --version
-          sudo apt-get install -y mysql-client
-          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -uroot -e "SHOW DATABASES"
       - name: Run tests
-        run: ./vendor/bin/phpunit
+        run: | 
+          php artisan migrate
+          ./vendor/bin/phpunit --verbose
         env:
-          MYSQL_DATABASE: phpbali_next_site
-          DB_USERNAME: root
-          DB_PORT: ${{ job.services.mysql.ports[3306] }}
-          APP_ENV: testing
+          DB_DATABASE: phpbali_next_site
+          DB_USERNAME: user
+          DB_PASSWORD: secret
+          DB_CONNECTION: mysql
+          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
   deploy:
     name: Deploy to production
     runs-on: ubuntu-latest
