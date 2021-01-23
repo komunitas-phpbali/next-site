@@ -56,13 +56,11 @@ jobs:
           mysql --version
           sudo apt-get install -y mysql-client
           mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -uroot -e "SHOW DATABASES"
-      - name: Run database migration
-        run: |
-          mysql --version
-          php artisan migrate:fresh
       - name: Run tests
         run: ./vendor/bin/phpunit
         env:
+          MYSQL_DATABASE: phpbali_next_site
+          DB_USERNAME: root
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
           APP_ENV: testing
   deploy:
