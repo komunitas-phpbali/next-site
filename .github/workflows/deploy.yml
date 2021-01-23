@@ -27,21 +27,35 @@ jobs:
   test-php:
     name: Test/Lint PHP
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: phpbali_next_site
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - uses: actions/checkout@v2
       - name: Setup PHP
         uses: shivammathur/setup-php@master
         with:
           php-version: 7.4
-          extensions: mbstring, bcmath
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, soap, intl, gd, exif, iconv, imagick
       - name: Composer install
-        run: composer install
+        run: composer install -n --prefer-dist
+        env:
+          APP_ENV: testing
       - name: Prepare Laravel Application
         run: |
           cp .env.example .env
           php artisan key:generate
       - name: Run tests
         run: ./vendor/bin/phpunit
+        env:
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+          APP_ENV: testing
   deploy:
     name: Deploy to production
     runs-on: ubuntu-latest
