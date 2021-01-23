@@ -51,6 +51,11 @@ jobs:
         run: |
           cp .env.example .env
           php artisan key:generate
+       - name: Verify MySQL connection
+        run: |
+          mysql --version
+          sudo apt-get install -y mysql-client
+          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -uroot -e "SHOW DATABASES"
       - name: Run database migration
         run: |
           mysql --version
