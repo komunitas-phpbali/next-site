@@ -33,9 +33,9 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: 7.4
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, bcmath, soap, intl, gd, exif
+          extensions: mbstring, bcmath
       - name: Composer install
-        run: composer install -n --prefer-dist
+        run: composer install
       - name: Prepare Laravel Application
         run: |
           cp .env.example .env
