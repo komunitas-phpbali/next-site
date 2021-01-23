@@ -8,7 +8,7 @@
         <meta name="title" content="PHPBali">
         <meta name="description" content="Komunitas pemrograman PHP di Bali. Diskusi tentang PHP dan pengembangan web">
         <meta name="image" content="{{ asset('img/phpbali-logo.png') }}">
-        <link rel="icon" type=image/png href="{{ asset('favicon.png') }}">
+        <link rel="icon" type=image/png href="{{ asset('img/favicon.png') }}">
         <meta property="og:type" content="website">
         <meta property="og:url" content="{{ config('app.url') }}">
         <meta property="og:title" content="{{ isset($title) ? $title.' - ' : null }}{{ config('app.name') }}">
